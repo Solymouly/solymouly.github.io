@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Nicholas Henry Yudhistira | Portofolio</title>
+    <meta
+      name="description"
+      content="Developer NLP & full stack. Mahasiswa Universitas Tarumanagara."
+    />
+    <meta name="theme-color" content="#00022E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Lewati ke konten</a>
+
+    <!-- Grafik latar interaktif: titik-titik yang bereaksi ke kursor + lampu sorot -->
+    <div class="bg" aria-hidden="true">
+      <div class="bg__glow bg__glow--a"></div>
+      <div class="bg__glow bg__glow--b"></div>
+      <canvas class="bg__dots" id="bgDots"></canvas>
+      <div class="bg__spot" id="bgSpot"></div>
+    </div>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="nav" id="nav">
+      <a href="#beranda" class="nav__brand">Nicholas Henry</a>
+      <nav class="nav__links" id="navLinks" aria-label="Navigasi utama">
+        <a href="#beranda">Beranda</a>
+        <a href="#proyek">Proyek</a>
+        <a href="#kontak">Kontak</a>
+      </nav>
+      <button
+        class="nav__menu"
+        id="menuBtn"
+        aria-expanded="false"
+        aria-controls="navLinks"
+      >
+        Menu
+      </button>
+    </header>
+
+    <main id="main">
+      <!-- ================= HERO ================= -->
+      <section class="hero" id="beranda">
+        <div class="hero__top">
+          <p class="hero__role">NLP &amp; Full Stack Developer</p>
+          <p class="pill">
+            <span class="pill__dot"></span>Terbuka untuk magang
+          </p>
+        </div>
+
+        <h1 class="hero__name">
+          <span class="hero__line">Nicholas</span>
+          <span class="hero__line">Henry<span class="hero__stop">.</span></span>
+        </h1>
+
+        <div class="hero__bottom">
+          <figure class="portrait">
+            <!-- Ganti dengan foto Anda: <img src="img/foto.jpg" alt="Foto Nicholas Henry Yudhistira"> -->
+            <div class="portrait__placeholder" aria-hidden="true">NH</div>
+            <figcaption>Jakarta, Indonesia</figcaption>
+          </figure>
+
+          <div class="hero__intro">
+            <p class="hero__lead">
+              An Informatics Engineering student at Tarumanagara University with
+              a strong interest in full stack web development and natural
+              language processing.
+            </p>
+            <p class="hero__detail">
+              Experienced in building responsive interfaces with React, Next.js,
+              TypeScript, Tailwind CSS, and Bootstrap, as well as developing
+              backend applications with Laravel, PHP, Node.js, and Express.
+              Works with MongoDB and Prisma for data management, and uses Python
+              for NLP research, including an Indonesian journal summarization
+              model accepted at ICAIDES 2026.
+            </p>
+            <div class="hero__actions">
+              <a href="#proyek" class="btn btn--solid">Lihat proyek</a>
+              <a href="#kontak" class="btn btn--line">Hubungi saya</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SLIDE BAR KEAHLIAN =================
+         Baris 1: bahasa pemrograman. Baris 2: framework + bahasanya.
+         Tambah/hapus: edit <li> di track PERTAMA tiap baris,
+         lalu salin isi yang sama ke dua track di bawahnya (aria-hidden). -->
+      <section
+        class="marquee"
+        id="keahlian"
+        aria-label="Bahasa pemrograman dan framework yang saya gunakan"
+      >
+        <div class="marquee__row marquee__row--lang">
+          <ul class="marquee__track">
+            <li>Java</li>
+            <li>Python</li>
+            <li>JavaScript</li>
+            <li>TypeScript</li>
+            <li>PHP</li>
+            <li>HTML</li>
+            <li>CSS</li>
+          </ul>
+          <ul class="marquee__track" aria-hidden="true">
+            <li>Java</li>
+            <li>Python</li>
+            <li>JavaScript</li>
+            <li>TypeScript</li>
+            <li>PHP</li>
+            <li>HTML</li>
+            <li>CSS</li>
+          </ul>
+          <ul class="marquee__track" aria-hidden="true">
+            <li>Java</li>
+            <li>Python</li>
+            <li>JavaScript</li>
+            <li>TypeScript</li>
+            <li>PHP</li>
+            <li>HTML</li>
+            <li>CSS</li>
+          </ul>
+        </div>
+        <div class="marquee__row marquee__row--reverse">
+          <ul class="marquee__track">
+            <li>Laravel <span class="tag">PHP</span></li>
+            <li>Next.js <span class="tag">TypeScript</span></li>
+            <li>React <span class="tag">JavaScript</span></li>
+            <li>Express <span class="tag">JavaScript</span></li>
+            <li>Prisma <span class="tag">TypeScript</span></li>
+            <li>Pydantic AI <span class="tag">Python</span></li>
+            <li>Transformers / mT5 <span class="tag">Python</span></li>
+            <li>Jupyter <span class="tag">Python</span></li>
+            <li>Tailwind CSS <span class="tag">CSS</span></li>
+            <li>Bootstrap <span class="tag">CSS</span></li>
+            <li>MongoDB <span class="tag">NoSQL</span></li>
+          </ul>
+          <ul class="marquee__track" aria-hidden="true">
+            <li>Laravel <span class="tag">PHP</span></li>
+            <li>Next.js <span class="tag">TypeScript</span></li>
+            <li>React <span class="tag">JavaScript</span></li>
+            <li>Express <span class="tag">JavaScript</span></li>
+            <li>Prisma <span class="tag">TypeScript</span></li>
+            <li>Pydantic AI <span class="tag">Python</span></li>
+            <li>Transformers / mT5 <span class="tag">Python</span></li>
+            <li>Jupyter <span class="tag">Python</span></li>
+            <li>Tailwind CSS <span class="tag">CSS</span></li>
+            <li>Bootstrap <span class="tag">CSS</span></li>
+            <li>MongoDB <span class="tag">NoSQL</span></li>
+          </ul>
+          <ul class="marquee__track" aria-hidden="true">
+            <li>Laravel <span class="tag">PHP</span></li>
+            <li>Next.js <span class="tag">TypeScript</span></li>
+            <li>React <span class="tag">JavaScript</span></li>
+            <li>Express <span class="tag">JavaScript</span></li>
+            <li>Prisma <span class="tag">TypeScript</span></li>
+            <li>Pydantic AI <span class="tag">Python</span></li>
+            <li>Transformers / mT5 <span class="tag">Python</span></li>
+            <li>Jupyter <span class="tag">Python</span></li>
+            <li>Tailwind CSS <span class="tag">CSS</span></li>
+            <li>Bootstrap <span class="tag">CSS</span></li>
+            <li>MongoDB <span class="tag">NoSQL</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ================= PROYEK ================= -->
+      <section class="section" id="proyek">
+        <div class="section__head">
+          <p class="kicker">Proyek pilihan</p>
+          <h2 class="title">Proyek<span class="hero__stop">.</span></h2>
+          <p class="section__meta" id="workSummary"></p>
+        </div>
+
+        <div
+          class="filters"
+          id="filters"
+          role="tablist"
+          aria-label="Filter proyek"
+        ></div>
+
+        <ul class="work" id="workList"></ul>
+        <p class="empty" id="workEmpty" hidden>
+          Belum ada proyek di kategori ini.
+        </p>
+      </section>
+
+      <!-- ================= KONTAK ================= -->
+      <section class="section contact" id="kontak">
+        <div class="section__head">
+          <h2 class="contact__heading">Kontak</h2>
+        </div>
+
+        <ul class="contact__list">
+          <li>
+            <a href="mailto:email@contoh.com">
+              <span class="contact__label">Email</span>
+              <span class="contact__value">email@contoh.com</span>
+              <span class="contact__arrow" aria-hidden="true"
+                ><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg
+              ></span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://linkedin.com/in/username"
+              target="_blank"
+              rel="noopener"
+            >
+              <span class="contact__label">LinkedIn</span>
+              <span class="contact__value">linkedin.com/in/username</span>
+              <span class="contact__arrow" aria-hidden="true"
+                ><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg
+              ></span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/Solymouly"
+              target="_blank"
+              rel="noopener"
+            >
+              <span class="contact__label">GitHub</span>
+              <span class="contact__value">github.com/Solymouly</span>
+              <span class="contact__arrow" aria-hidden="true"
+                ><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg
+              ></span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; <span id="year"></span> Nicholas Henry</p>
+      <nav class="footer__links" aria-label="Tautan footer">
+        <a href="https://github.com/Solymouly" target="_blank" rel="noopener"
+          >GitHub</a
+        >
+        <a
+          href="https://linkedin.com/in/username"
+          target="_blank"
+          rel="noopener"
+          >LinkedIn</a
+        >
+        <a href="mailto:email@contoh.com">Email</a>
+      </nav>
+      <a href="#beranda" class="footer__top" aria-label="Kembali ke atas">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 19V5m0 0-6 6m6-6 6 6" />
+        </svg>
+      </a>
+    </footer>
+
+    <!-- Pratinjau sampul yang mengikuti kursor (desktop) -->
+    <div class="preview" id="preview" aria-hidden="true"></div>
+
+    <!-- Modal detail proyek -->
+    <dialog class="modal" id="modal" aria-labelledby="modalTitle">
+      <button class="modal__close" id="modalClose" aria-label="Tutup">
+        &times;
+      </button>
+      <p class="modal__meta" id="modalMeta"></p>
+      <h3 id="modalTitle"></h3>
+      <div id="modalBody"></div>
+      <div class="modal__links" id="modalLinks"></div>
+    </dialog>
+
+    <script src="projects.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
