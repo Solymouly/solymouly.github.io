@@ -47,6 +47,56 @@
   const listEl = $("#workList");
   const filterEl = $("#filters");
   let active = "all";
+  let current = null; // proyek yang sedang ditampilkan di panel
+
+  const coverHTML = (p) => p.gambar
+    ? `<img src="${esc(p.gambar)}" alt="Tampilan ${esc(p.judul)}" loading="lazy">`
+    : `<div class="cover cover--${esc(p.warna || "biru")}"><span>${esc(p.judul)}</span></div>`;
+
+  const linksHTML = (p) => {
+    const btns = [];
+    if (p.link?.demo) btns.push(`<a class="btn btn--solid" href="${esc(p.link.demo)}" target="_blank" rel="noopener">Buka proyek</a>`);
+    if (p.link?.kode) btns.push(`<a class="btn btn--line" href="${esc(p.link.kode)}" target="_blank" rel="noopener">Lihat kode</a>`);
+    return btns.join("");
+  };
+
+  // Panel tampilan proyek (desktop)
+  const showcase = $("#showcase");
+  const renderShowcase = (animate = true) => {
+    const p = data.find((d) => d.id === current);
+    if (!p) { showcase.innerHTML = ""; showcase.hidden = true; return; }
+    showcase.hidden = false;
+    showcase.innerHTML = `
+      <div class="showcase__cover">${coverHTML(p)}</div>
+      <div class="showcase__body">
+        <p class="showcase__meta">
+          <span class="status status--${slug(p.status)}">${esc(p.status || "")}</span>
+          <span>${esc(p.jenis || "")}</span><span>${esc(p.tahun || "")}</span>
+        </p>
+        <h3>${esc(p.judul)}</h3>
+        <p class="showcase__desc">${esc(p.ringkas || "")}</p>
+        ${(p.detail || []).length ? `<ul class="showcase__list">${p.detail.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>` : ""}
+        ${(p.tags || []).length ? `<div class="showcase__tags">${p.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</div>` : ""}
+        <div class="showcase__links">${linksHTML(p)}</div>
+      </div>`;
+    if (animate && !reduceMotion) {
+      showcase.classList.remove("is-changing");
+      void showcase.offsetWidth; // mulai ulang animasi
+      showcase.classList.add("is-changing");
+    }
+  };
+
+  const setCurrent = (id) => {
+    if (!id || id === current) return;
+    current = id;
+    $$(".work__row", listEl).forEach((li) => {
+      const on = li.firstElementChild.dataset.id === id;
+      li.classList.toggle("is-active", on);
+      li.firstElementChild.setAttribute("aria-pressed", String(on));
+    });
+    renderShowcase();
+  };
+  const wide = matchMedia("(min-width: 961px)");
 
   // Ringkasan, misalnya "4 proyek · 1 proyek klien · 1 riset"
   const klien = data.filter((p) => /klien/i.test(p.jenis)).length;
@@ -67,9 +117,11 @@
 
   const renderList = () => {
     const items = data.filter((p) => active === "all" || (p.kategori || []).includes(active));
+    if (!items.some((p) => p.id === current)) current = items[0]?.id || null;
     listEl.innerHTML = items.map((p) => `
-      <li class="work__row">
-        <button class="work__btn" data-id="${esc(p.id)}">
+      <li class="work__row${p.id === current ? " is-active" : ""}">
+        <button class="work__btn" data-id="${esc(p.id)}" aria-pressed="${p.id === current}">
+          <span class="work__thumb" aria-hidden="true">${coverHTML(p)}</span>
           <span class="status status--${slug(p.status)}">${esc(p.status || "")}</span>
           <span class="work__name">${esc(p.judul)}</span>
           <span class="work__type">${esc(p.jenis || "")}</span>
@@ -78,6 +130,7 @@
         </button>
       </li>`).join("");
     $("#workEmpty").hidden = items.length > 0;
+    renderShowcase(false);
   };
 
   filterEl.addEventListener("click", (e) => {
@@ -91,41 +144,15 @@
   renderFilters();
   renderList();
 
-  /* ---------- Pratinjau sampul mengikuti kursor (desktop) ---------- */
-  const preview = $("#preview");
-  const coverHTML = (p) => p.gambar
-    ? `<img src="${esc(p.gambar)}" alt="">`
-    : `<div class="cover cover--${esc(p.warna || "biru")}"><span>${esc(p.judul)}</span></div>`;
-
-  if (canHover && !reduceMotion) {
-    let x = 0, y = 0, cx = 0, cy = 0, raf = null;
-    const follow = () => {
-      cx += (x - cx) * 0.18;
-      cy += (y - cy) * 0.18;
-      preview.style.left = `${cx}px`;
-      preview.style.top = `${cy}px`;
-      raf = requestAnimationFrame(follow);
-    };
-
-    listEl.addEventListener("mouseover", (e) => {
-      const btn = e.target.closest(".work__btn");
-      if (!btn) return;
-      const p = data.find((d) => d.id === btn.dataset.id);
-      if (p && preview.dataset.id !== p.id) {
-        preview.innerHTML = coverHTML(p);
-        preview.dataset.id = p.id;
-      }
-      preview.classList.add("is-visible");
-    });
-    listEl.addEventListener("mousemove", (e) => {
-      x = e.clientX + 170; y = e.clientY;
-      if (!raf) { cx = x; cy = y; follow(); }
-    });
-    listEl.addEventListener("mouseleave", () => {
-      preview.classList.remove("is-visible");
-      cancelAnimationFrame(raf); raf = null;
-    });
-  }
+  /* ---------- Sorot proyek -> panel ikut berganti (desktop) ---------- */
+  listEl.addEventListener("mouseover", (e) => {
+    const btn = e.target.closest(".work__btn");
+    if (btn && wide.matches && canHover) setCurrent(btn.dataset.id);
+  });
+  listEl.addEventListener("focusin", (e) => {
+    const btn = e.target.closest(".work__btn");
+    if (btn && wide.matches) setCurrent(btn.dataset.id);
+  });
 
   /* ---------- Modal detail proyek ---------- */
   const modal = $("#modal");
@@ -137,6 +164,9 @@
     const p = data.find((d) => d.id === btn.dataset.id);
     if (!p) return;
 
+    // Desktop: tampilkan di panel. HP/tablet: buka jendela detail.
+    if (wide.matches) { setCurrent(p.id); return; }
+
     $("#modalMeta").innerHTML =
       `<span class="status status--${slug(p.status)}">${esc(p.status || "")}</span>` +
       `<span>${esc(p.jenis || "")}</span><span>${esc(p.tahun || "")}</span>`;
@@ -146,12 +176,7 @@
       ((p.detail || []).length ? `<ul>${p.detail.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>` : "") +
       ((p.tags || []).length ? `<div class="modal__tags">${p.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</div>` : "");
 
-    const btns = [];
-    if (p.link?.demo) btns.push(`<a class="btn btn--solid" href="${esc(p.link.demo)}" target="_blank" rel="noopener">Buka proyek</a>`);
-    if (p.link?.kode) btns.push(`<a class="btn btn--line" href="${esc(p.link.kode)}" target="_blank" rel="noopener">Lihat kode</a>`);
-    $("#modalLinks").innerHTML = btns.join("");
-
-    preview.classList.remove("is-visible");
+    $("#modalLinks").innerHTML = linksHTML(p);
     lastFocus = btn;
     modal.showModal();
   });

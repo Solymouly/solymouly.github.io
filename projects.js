@@ -119,8 +119,27 @@ const PROJECTS = [
     tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
     link: { demo: "", kode: "https://github.com/Solymouly/portfolio-landing" },
     unggulan: false
+  },
+  {
+    id: "fokus-todo-widget",
+    judul: "Fokus — Floating To-Do Widget",
+    jenis: "Aplikasi desktop",
+    tahun: 2026,
+    status: "Deployed",
+    kategori: ["fullstack"],
+    warna: "navy",
+    gambar: "",
+    ringkas: "Widget to-do list mengambang untuk Windows: selalu tampil di atas jendela lain, mengingatkan tugas lewat alarm suara, bahkan saat sedang bermain game.",
+    detail: [
+      "Kartu 'Kerjakan berikutnya' dengan cincin progres harian",
+      "Tambah tugas cepat lewat sintaks singkat (prioritas, jam, label, pengulangan)",
+      "Alarm dan notifikasi yang tetap muncul saat mode game layar penuh aktif",
+      "Timer fokus (Pomodoro), statistik 7 hari, backup otomatis, dan ekspor CSV/JSON"
+    ],
+    tags: ["Python", "Desktop app", "Windows"],
+    link: { demo: "", kode: "https://github.com/Solymouly/fokus-todo-widget" },
+    unggulan: true
   }
-
   /* ---- CONTOH PROYEK BARU: hapus baris ini dan baris penutup di bawah, lalu isi ----
   ,{
     id: "proyek-baru",
